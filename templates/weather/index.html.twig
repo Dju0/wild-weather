@@ -1,0 +1,31 @@
+{# templates/weather/index.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Weather Information{% endblock %}
+
+{% block body %}
+    <h1>Weather Information</h1>
+
+    <!-- Formulaire pour choisir une ville -->
+    <form action="{{ path('weather_by_city') }}" method="GET">
+        <label for="city">Choose a city:</label>
+        <input type="text" id="city" name="city" required>
+        <button type="submit">Get Weather</button>
+    </form>
+
+    <!-- Affichage des données météorologiques -->
+    {% if weatherData %}
+        <div>
+            <h2>{{ weatherData.name ? weatherData.name : 'Unknown Location' }}</h2>
+            <p><strong>Temperature:</strong> {{ weatherData.main.temp }}°C</p>
+            <p><strong>Weather:</strong> {{ weatherData.weather[0].main }} - {{ weatherData.weather[0].description }}</p>
+            <p><strong>Humidity:</strong> {{ weatherData.main.humidity }}%</p>
+            <p><strong>Wind Speed:</strong> {{ weatherData.wind.speed }} m/s</p>
+            <p><strong>Timezone:</strong> UTC{{ weatherData.timezone / 3600 > 0 ? '+' ~ (weatherData.timezone / 3600) : (weatherData.timezone / 3600) }} hours</p
+            <!-- Ajoutez plus de détails météorologiques si nécessaire -->
+        </div>
+    {% else %}
+        <p>No weather data available.</p>
+    {% endif %}
+{% endblock %}
